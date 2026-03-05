@@ -6,6 +6,6 @@ class ProductEntity {
   ProductEntity({
     required this.id,
     required this.title,
-    required this.price
+    required this.price,
   });
 }
