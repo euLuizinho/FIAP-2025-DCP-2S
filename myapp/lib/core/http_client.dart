@@ -5,12 +5,16 @@ class CustomHttpClient {
   final Dio dio;
 
   // Construtor: cria uma instância de Dio pronta para usar
-  CustomHttpClient(): dio = Dio();
+  CustomHttpClient() : dio = Dio();
 
   // Busca todos os produtos da API de forma assíncrona
   // Future<Response> promete retornar uma resposta da API
   Future<Response> getProducts() async {
     // await aguarda a resposta antes de continuar
     return await dio.get('https://gdapp.com.br/api/fiap/products');
+  }
+
+  Future<Response> createProduct(Map<String, dynamic> data) async {
+    return await dio.post('https://gdapp.com.br/api/fiap/products', data: data);
   }
 }

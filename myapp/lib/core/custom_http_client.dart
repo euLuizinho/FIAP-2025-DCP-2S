@@ -9,4 +9,6 @@ class CustomHttpClient {
     return await dio.get("https://gdapp.com.br/api/fiap/products");
   }
 
+  Future<void> createProduct(Map<String, dynamic> json) async {}
+
 }

@@ -6,11 +6,27 @@ class ProductDatasource {
   final CustomHttpClient httpClient;
 
   ProductDatasource(this.httpClient);
-  
-  Future<List<ProductEntity>> getProducts()async{
+
+  Future<List<ProductEntity>> getProducts() async {
     final response = await httpClient.getProducts();
-    
-    return (response.data as List).map((e)=> ProductModel.fromJson(e)).toList();
+
+    final List<dynamic> dataList = response.data is List ? response.data : [];
+
+    return dataList
+        .map((e) => ProductModel.fromJson(e))
+        .map((model) => model.toProductEntity())
+        .toList();
+  }
+
+  //Método para cadastrar um produto
+  Future<bool> createProduct(ProductEntity product) async{
+    try{
+      final model = ProductModel.fromProductEntity(product);
+      await httpClient.createProduct(model.toJson());
+      return true;
+    }catch (e){
+      return false;      
+    }
   }
 
 }
