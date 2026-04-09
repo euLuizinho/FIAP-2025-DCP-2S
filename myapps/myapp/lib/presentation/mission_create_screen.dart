@@ -16,7 +16,7 @@ class _MissionCreateScreenState extends State<MissionCreateScreen> {
   late TextEditingController _launchDateController;
   late TextEditingController _statusController;
 
-  final bool _isSubmitting = false;
+  bool _isSubmitting = false;
   String? _errorMessage;
 
   @override
@@ -40,8 +40,8 @@ class _MissionCreateScreenState extends State<MissionCreateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadastrar Missão'),
-        backgroundColor: const Color.fromARGB(255, 56, 56, 56),
-        foregroundColor: const Color.fromARGB(255, 253, 195, 255),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

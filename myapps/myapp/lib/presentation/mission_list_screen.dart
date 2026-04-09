@@ -5,13 +5,27 @@ import 'mission_edit_screen.dart';
 import 'mission_view_model.dart';
 
 /// Tela principal que lista as missões espaciais da agência.
-class MissionListScreen extends StatelessWidget {
+class MissionListScreen extends StatefulWidget {
   const MissionListScreen({super.key});
+
+  @override
+  State<MissionListScreen> createState() => _MissionListScreenState();
+}
+
+class _MissionListScreenState extends State<MissionListScreen> {
+  late MissionViewModel _missionViewModel;
+
+  @override
+  void initState() {
+    _missionViewModel = context.read<MissionViewModel>();
+    _missionViewModel.loadMissions();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // Obtém o ViewModel associado à lista de missões
-    final vm = context.watch<MissionViewModel>();
+    _missionViewModel = context.watch<MissionViewModel>();
 
     return Scaffold(
       appBar: AppBar(
@@ -27,14 +41,14 @@ class MissionListScreen extends StatelessWidget {
         ],
       ),
       // Estrutura principal da tela, mostra loading, erro ou lista de missões
-      body: vm.isLoading
+      body: _missionViewModel.isLoading
           ? const Center(child: CircularProgressIndicator())
-          : vm.errorMessage != null
-              ? Center(child: Text(vm.errorMessage!))
+          : _missionViewModel.errorMessage != null
+              ? Center(child: Text(_missionViewModel.errorMessage!))
               : ListView.builder(
-                  itemCount: vm.missions.length,
+                  itemCount: _missionViewModel.missions.length,
                   itemBuilder: (context, index) {
-                    final mission = vm.missions[index];
+                    final mission = _missionViewModel.missions[index];
                     return ListTile(
                       // Exibe o ID da missão em um círculo
                       leading: CircleAvatar(child: Text('${mission.id}')),

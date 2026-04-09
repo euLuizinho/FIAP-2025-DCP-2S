@@ -5,11 +5,14 @@ import 'presentation/mission_list_screen.dart';
 import 'presentation/mission_view_model.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupDependencies();
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => MissionViewModel()..loadMissions(),
+          create: (_) => MissionViewModel(),
         ),
       ],
       child: const MyApp(),
