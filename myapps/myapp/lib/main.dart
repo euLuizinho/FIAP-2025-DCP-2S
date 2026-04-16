@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/core/dependency_injection.dart';
 import 'package:provider/provider.dart';
 
 import 'presentation/mission_list_screen.dart';
@@ -6,13 +7,13 @@ import 'presentation/mission_view_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await setupDependencies();
+  await setupDependencyInjection();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => MissionViewModel(),
+          create: (_) => MissionViewModel(getIt()),
         ),
       ],
       child: const MyApp(),

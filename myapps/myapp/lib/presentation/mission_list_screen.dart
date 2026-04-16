@@ -17,8 +17,10 @@ class _MissionListScreenState extends State<MissionListScreen> {
 
   @override
   void initState() {
-    _missionViewModel = context.read<MissionViewModel>();
-    _missionViewModel.loadMissions();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      _missionViewModel = context.read<MissionViewModel>();
+      _missionViewModel.loadMissions();
+    });
     super.initState();
   }
 

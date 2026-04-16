@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/domain/mission_model.dart';
+import 'package:myapp/presentation/mission_view_model.dart';
+import 'package:provider/provider.dart';
 
 /// Tela para criar uma nova missão.
 class MissionCreateScreen extends StatefulWidget {
@@ -35,6 +38,32 @@ class _MissionCreateScreenState extends State<MissionCreateScreen> {
     super.dispose();
   }
 
+  Future<void> getData() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isSubmitting = true;
+      _errorMessage = null;
+    });
+
+    final mission = MissionModel(
+      id: 0,
+      name: _nameController.text,
+      launchDate: _launchDateController.text,
+      status: _statusController.text,
+    );
+
+    final wm = context.read<MissionViewModel>();
+    await wm.createMission(mission);
+
+    setState(() {
+      _isSubmitting = false;
+      _errorMessage = null;
+    });
+
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,11 +94,9 @@ class _MissionCreateScreenState extends State<MissionCreateScreen> {
                   labelText: 'Nome da missão',
                   border: OutlineInputBorder(),
                 ),
-                validator:
-                    (val) =>
-                        val == null || val.trim().isEmpty
-                            ? 'Informe o nome.'
-                            : null,
+                validator: (val) => val == null || val.trim().isEmpty
+                    ? 'Informe o nome.'
+                    : null,
               ),
               const SizedBox(height: 16),
               // Campo para a data de lançamento
@@ -80,11 +107,9 @@ class _MissionCreateScreenState extends State<MissionCreateScreen> {
                   hintText: 'YYYY-MM-DD',
                   border: OutlineInputBorder(),
                 ),
-                validator:
-                    (val) =>
-                        val == null || val.trim().isEmpty
-                            ? 'Informe a data.'
-                            : null,
+                validator: (val) => val == null || val.trim().isEmpty
+                    ? 'Informe a data.'
+                    : null,
               ),
               const SizedBox(height: 16),
               // Campo para o status da missão
@@ -95,34 +120,31 @@ class _MissionCreateScreenState extends State<MissionCreateScreen> {
                   hintText: 'Ativa/Concluída/Cancelada',
                   border: OutlineInputBorder(),
                 ),
-                validator:
-                    (val) =>
-                        val == null || val.trim().isEmpty
-                            ? 'Informe o status.'
-                            : null,
+                validator: (val) => val == null || val.trim().isEmpty
+                    ? 'Informe o status.'
+                    : null,
               ),
               const SizedBox(height: 32),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _isSubmitting ? null : (){
-
+                  onPressed: _isSubmitting ? null : () {
+                    getData();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
                   ),
-                  child:
-                      _isSubmitting
-                          ? const SizedBox(
-                            width: 22,
-                            height: 22,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          )
-                          : const Text('Cadastrar'),
+                  child: _isSubmitting
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text('Cadastrar'),
                 ),
               ),
             ],

@@ -34,17 +34,31 @@ class MissionViewModel extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
 
-    try{
+    try {
       _missions = await _missionRepository.getMissions();
-    }on DioException catch(e){
+    } on DioException catch (e) {
       _errorMessage = 'Erro ao carregar as missões bbzinha - ${e.message}';
-    }catch(e){
+    } catch (e) {
       _errorMessage = 'Erro - Tente novamente mais tarde!';
-    }finally{
+    } finally {
       _isLoading = false;
       notifyListeners();
     }
-    
   }
 
+  Future<void> createMission(MissionModel mission) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+    try {
+      await _missionRepository.createMission(mission);
+    } on DioException catch (e) {
+      _errorMessage = 'Erro ao cadastrar missão: ${e.message}';
+    } catch (e) {
+      _errorMessage = 'Erro genérico: $e';
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }
