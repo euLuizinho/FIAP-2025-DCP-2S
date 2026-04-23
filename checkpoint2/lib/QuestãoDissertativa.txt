@@ -1,0 +1,23 @@
+Pergunta Subjetiva
+
+Explique a importância da utilização de um padrão arquitetural como MVVM
+em aplicações Flutter e como ele contribui para a organização, manutenção
+e escalabilidade do projeto.
+R: Colocar muita lógica em apenas uma tela é uma má prática, pois a tela fica responsável
+por tudo ao mesmo tempo, daí o código vira uma bagunça e fica difícil pra entender e mexer.
+A arquitetura MVVM (Model, View, e ViewModel) possui menos camadas que a Clean architeture
+e separa melhor as responsabilidades, fazendo com que os problemas principais dessa arquitetura
+sejam sanados.
+
+Pergunta Extra
+
+Explique qual é a função do método
+WidgetsFlutterBinding.ensureInitialized() no Flutter, em que situações ele
+deve ser utilizado e quais problemas podem ocorrer caso ele não seja
+chamado quando necessário.
+R: O WidgetsFlutterBinding.ensureInitialized() é uma espécie de pré-produção no começo do app. 
+Ele garante que o Flutter já esteja totalmente pronto para mexer com coisas que dependem do sistema 
+antes mesmo de abrir a interface. Você usa ele no main() quando precisa fazer alguma 
+inicialização antes do runApp(), para por exemplo carregar configurações, iniciar serviços ou plugins. 
+Se não chamar e tentar fazer isso cedo demais, o app pode dar crashar ou até travar logo na tela inicial
+porque ainda não estava tudo pronto.
